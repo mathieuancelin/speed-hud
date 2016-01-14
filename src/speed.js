@@ -34,7 +34,7 @@ function watchPosition() {
     // console.log('success', pos);
     const time = Date.now();
     if (lastPosition && lastTime) {
-      const speed = (pos.coords.speed * 3.6) || calculateSpeed(
+      const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : calculateSpeed(
         lastTime / 1000,
         lastPosition.coords.latitude,
         lastPosition.coords.longitude,
