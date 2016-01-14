@@ -1,5 +1,5 @@
 import React from 'react';
-import { startTracking, stopTracking, subscribe } from './speed';
+import { startTracking, stopTracking, subscribe, position } from './speed';
 
 export default React.createClass({
   getInitialState() {
@@ -53,9 +53,12 @@ export default React.createClass({
       color: 'white',
     };
     return (
-      <div style={style} onClick={this.flip}>
-        <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
-        <span style={labelStyle}>Km/h</span>
+      <div>
+        <div style={style} onClick={this.flip}>
+          <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
+          <span style={labelStyle}>Km/h</span>
+        </div>
+        <span style={{ color: 'white' }}>{position().timestamp} : {position().coords.speed}</span>
       </div>
     );
   },
