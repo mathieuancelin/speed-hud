@@ -30,22 +30,24 @@ export default React.createClass({
   render() {
     const style = {
       display: 'flex',
-      justifyContent: 'right',
+      justifyContent: 'space-between',
       alignItems: 'center',
       transform: this.state.flip ? 'scale(-1, 1)' : 'scale(1, 1)',
       backgroundColor: 'black',
       color: 'white',
-      width: '100%',
+      width: '100vw',
+      height: '100vh',
     };
     const speedStyle = {
-      width: '100%',
       fontSize: '70vh',
       letterSpacing: '-6vw',
       fontFamily: 'monospace',
       color: this.state.speed > 133.0 ? 'red' : 'white',
+      fontWeight: 'bold',
     };
     const labelStyle = {
       marginLeft: '6vw',
+      marginRight: '1vw',
       fontSize: '30vh',
       fontFamily: 'monospace',
       color: 'white',
