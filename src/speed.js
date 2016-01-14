@@ -24,7 +24,7 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
   // From cletus' answer ends
-  return distance / t2 - t1;
+  return distance; // / t2 - t1;
 }
 
 function watchPosition() {
