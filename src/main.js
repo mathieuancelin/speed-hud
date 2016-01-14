@@ -5,5 +5,8 @@ import HUD from './hud';
 require('babel-polyfill');
 
 export function init() {
-  ReactDOM.render(<HUD />, document.getElementById('app'));
+  ReactDOM.render(
+    <HUD debug={window.location.hash === '#debug'} />,
+    document.getElementById('app')
+  );
 }

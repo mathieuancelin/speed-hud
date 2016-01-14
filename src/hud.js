@@ -5,6 +5,14 @@ import moment from 'moment';
 import { startTracking, stopTracking, subscribe } from './speed';
 
 export default React.createClass({
+  propTypes: {
+    debug: React.PropTypes.bool,
+  },
+  getDefaultProps() {
+    return {
+      debug: false,
+    };
+  },
   getInitialState() {
     return {
       flip: true,
@@ -89,15 +97,19 @@ export default React.createClass({
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>Km/h</span>
         </div>
-        <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>
-        <ul style={{ color: 'yellow' }}>
-          <li>timestamp: {this.state.timestamp} : {moment(this.state.timestamp).format('DD/MM/YYYY HH:mm:ss:SSS')}</li>
-          <li>latitude : {this.state.coords.latitude}</li>
-          <li>longitude : {this.state.coords.longitude}</li>
-          <li>coord speed : {this.state.coords.speed}</li>
-          <li>speed : {this.state.speed}</li>
-          <li>speed : {this.state.actualSpeed}</li>
-        </ul>
+        {this.props.debug ? (
+          <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>
+        ) : null}
+        {this.props.debug ? (
+          <ul style={{ color: 'yellow' }}>
+            <li>timestamp: {this.state.timestamp} : {moment(this.state.timestamp).format('DD/MM/YYYY HH:mm:ss:SSS')}</li>
+            <li>latitude : {this.state.coords.latitude}</li>
+            <li>longitude : {this.state.coords.longitude}</li>
+            <li>coord speed : {this.state.coords.speed}</li>
+            <li>speed : {this.state.speed}</li>
+            <li>speed : {this.state.actualSpeed}</li>
+          </ul>
+        ) : null}
       </div>
     );
   },
