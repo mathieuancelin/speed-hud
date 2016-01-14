@@ -77,7 +77,7 @@ export default React.createClass({
         </div>
         <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>
         <ul style={{ color: 'yellow' }}>
-          <li>timestamp: {this.state.timestamp} : {moment(this.state.timestamp).format('DD/MM/YYYY HH:mm:ss')}</li>
+          <li>timestamp: {this.state.timestamp} : {moment(this.state.timestamp).format('DD/MM/YYYY HH:mm:ss:SSS')}</li>
           <li>latitude : {this.state.coords.latitude}</li>
           <li>longitude : {this.state.coords.longitude}</li>
           <li>coord speed : {this.state.coords.speed}</li>

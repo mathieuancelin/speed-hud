@@ -42,7 +42,12 @@ function watchPosition() {
         pos.coords.latitude,
         pos.coords.longitude
       );
-      listeners.forEach(listener => listener({ ...pos, speed }));
+      listeners.forEach(listener => listener({
+        timestamp: pos.timestamp,
+        coords: pos.coords,
+        error: null,
+        speed,
+      }));
     }
     lastPosition = pos;
     lastTime = time;
