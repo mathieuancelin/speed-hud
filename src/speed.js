@@ -50,7 +50,7 @@ function watchPosition() {
   }, {
     enableHighAccuracy: true,
     maximumAge: 2000,
-    timeout: 5000,
+    timeout: 10000,
   });
 }
 

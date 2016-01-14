@@ -60,7 +60,7 @@ export default React.createClass({
       fontFamily: 'monospace',
       color: 'white',
     };
-    const message = `${position().timestamp} : ${position().coords.latitude},${position().coords.longitude} : ${position().coords.speed}`;
+    const message = `${position().timestamp} : ${position().coords.latitude},${position().coords.longitude} : ${position().coords.speed} : ${this.state.speed}`;
     return (
       <div>
         <div style={style} onClick={this.flip}>
