@@ -6,22 +6,25 @@ import { startTracking, stopTracking, subscribe, position } from './speed';
 export default React.createClass({
   getInitialState() {
     return {
-      speed: 0.0,
       flip: true,
+      speed: 0.0,
       error: null,
+      coords: {},
+      timestamp: Date.now(),
     };
   },
   componentDidMount() {
-    this.unsubscribe = subscribe(speed => {
-      if (speed.error) {
-        this.setState({ error: speed.error });
+    this.unsubscribe = subscribe(e => {
+      const { speed, timestamp, error, coords } = e;
+      if (error) {
+        this.setState({ error });
       } else {
         if (speed > 999) {
-          this.setState({ speed: 999.0, error: null });
+          this.setState({ speed: 999.0, error, timestamp, coords });
         } else if (speed < 0) {
-          this.setState({ speed: 0.0, error: null });
+          this.setState({ speed: 0.0, error, timestamp, coords });
         } else {
-          this.setState({ speed, error: null });
+          this.setState({ speed, error, timestamp, coords });
         }
       }
     });
@@ -60,15 +63,20 @@ export default React.createClass({
       fontFamily: 'monospace',
       color: 'white',
     };
-    const message = `${position().timestamp} : ${position().coords.latitude},${position().coords.longitude} : ${position().coords.speed} : ${this.state.speed}`;
     return (
       <div>
         <div style={style} onClick={this.flip}>
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>Km/h</span>
         </div>
-        <span style={{ color: 'yellow' }}>{message}</span>
-        <span style={{ color: 'red' }}>{this.state.error ? `${this.state.error.code}: ${this.state.error.message}` : ''}</span>
+        <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>
+        <ul style={{ color: 'yellow' }}>
+          <li>timestamp: {this.state.timestamp}</li>
+          <li>latitude : {this.state.coords.latitude}</li>
+          <li>longitude : {this.state.coords.longitude}</li>
+          <li>coord speed : {this.state.coords.speed}</li>
+          <li>speed : {this.state.speed}</li>
+        </ul>
       </div>
     );
   },
