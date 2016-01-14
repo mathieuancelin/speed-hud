@@ -9,6 +9,7 @@ export default React.createClass({
     return {
       flip: true,
       speed: 0.0,
+      actualSpeed: 0.0,
       error: null,
       coords: {
         latitude: 0.0,
@@ -32,16 +33,17 @@ export default React.createClass({
               code: 'GPS_ERROR',
               message: 'Precision error',
             },
+            actualSpeed: speed,
           });
         } else {
           if (speed > 999) {
-            this.setState({ speed: 999.0, error, timestamp, coords });
+            this.setState({ speed: 999.0, actualSpeed: speed, error, timestamp, coords });
           } else if (speed < 0) {
-            this.setState({ speed: 0.0, error, timestamp, coords });
+            this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
           } else if (speed > 0 && speed < 15) {
-            this.setState({ speed: 15.0, error, timestamp, coords });
+            this.setState({ speed: 15.0, actualSpeed: speed, error, timestamp, coords });
           } else {
-            this.setState({ speed, error, timestamp, coords });
+            this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
           }
         }
       }
@@ -94,6 +96,7 @@ export default React.createClass({
           <li>longitude : {this.state.coords.longitude}</li>
           <li>coord speed : {this.state.coords.speed}</li>
           <li>speed : {this.state.speed}</li>
+          <li>speed : {this.state.actualSpeed}</li>
         </ul>
       </div>
     );
