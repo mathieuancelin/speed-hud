@@ -9,12 +9,17 @@ export default React.createClass({
       flip: true,
       speed: 0.0,
       error: null,
-      coords: {},
+      coords: {
+        latitude: 0.0,
+        longitude: 0.0,
+        speed: 0.0,
+      },
       timestamp: Date.now(),
     };
   },
   componentDidMount() {
     this.unsubscribe = subscribe(e => {
+      console.log(e);
       const { speed, timestamp, error, coords } = e;
       if (error) {
         this.setState({ error });
