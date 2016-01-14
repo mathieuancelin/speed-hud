@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 import React from 'react';
 import { startTracking, stopTracking, subscribe, position } from './speed';
 
@@ -58,7 +60,7 @@ export default React.createClass({
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>Km/h</span>
         </div>
-        <span style={{ color: 'white' }}>{position().timestamp} : {position().coords.speed}</span>
+        <span style={{ color: 'white' }}>{position().timestamp} : {position().coords.latitude},{position().coords.longitude} : {position().coords.speed}</span>
       </div>
     );
   },
