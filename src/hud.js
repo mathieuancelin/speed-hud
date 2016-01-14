@@ -46,6 +46,7 @@ export default React.createClass({
       fontFamily: 'monospace',
       color: this.state.speed > 133.0 ? 'red' : 'white',
       fontWeight: 'bold',
+      marginLeft: '1vw',
     };
     const labelStyle = {
       marginLeft: '6vw',
@@ -60,7 +61,7 @@ export default React.createClass({
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>Km/h</span>
         </div>
-        <span style={{ color: 'white' }}>{position().timestamp} : {position().coords.latitude},{position().coords.longitude} : {position().coords.speed}</span>
+        <span style={{ color: 'yellow' }}>{position().timestamp} : {position().coords.latitude},{position().coords.longitude} : {position().coords.speed}</span>
       </div>
     );
   },
