@@ -23,7 +23,7 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
     Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c; // in meters
-  const duration = (t2 - t1) / 1000; // in seconds
+  const duration = t2 - t1; // in seconds
   const speedMPS = distance / duration;
   const speed = speedMPS * 3.6;
   return speed;
