@@ -2,7 +2,6 @@ const listeners = [];
 let lastPosition;
 let lastTime;
 let watchId;
-let running = false;
 
 function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   // From Caspar Kleijne's answer starts
@@ -28,40 +27,39 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   return distance / t2 - t1;
 }
 
-function fetchPosition() {
-  if (!running) return;
-  watchId = setTimeout(() => {
-    if (!running) return;
-    navigator.geolocation.getCurrentPosition(pos => {
-      if (!running) return;
-      console.log(pos);
-      const time = Date.now();
-      if (lastPosition && lastTime) {
-        const speed = calculateSpeed(
-          lastTime / 1000,
-          lastPosition.coords.latitude,
-          lastPosition.coords.longitude,
-          time / 1000,
-          pos.coords.latitude,
-          pos.coords.longitude
-        );
-        listeners.forEach(listener => listener(speed));
-      }
-      lastPosition = pos;
-      lastTime = time;
-      fetchPosition();
-    });
-  }, 1000);
+function watchPosition() {
+  watchId = navigator.geolocation.watchPosition(pos => {
+    console.log('success', pos);
+    const time = Date.now();
+    if (lastPosition && lastTime) {
+      const speed = calculateSpeed(
+        lastTime / 1000,
+        lastPosition.coords.latitude,
+        lastPosition.coords.longitude,
+        time / 1000,
+        pos.coords.latitude,
+        pos.coords.longitude
+      );
+      listeners.forEach(listener => listener(speed));
+    }
+    lastPosition = pos;
+    lastTime = time;
+  }, error => {
+    console.log('error', error);
+    listeners.forEach(listener => listener({ error }));
+  }, {
+    enableHighAccuracy: true,
+    maximumAge: 2000,
+    timeout: 5000,
+  });
 }
 
 export function startTracking() {
-  running = true;
-  fetchPosition();
+  watchPosition();
 }
 
 export function stopTracking() {
-  running = false;
-  clearTimeout(watchId);
+  navigator.geolocation.clearWatch(watchId);
 }
 
 export function position() {

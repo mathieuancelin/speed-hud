@@ -8,16 +8,21 @@ export default React.createClass({
     return {
       speed: 0.0,
       flip: true,
+      error: null,
     };
   },
   componentDidMount() {
     this.unsubscribe = subscribe(speed => {
-      if (speed > 999) {
-        this.setState({ speed: 999.0 });
-      } else if (speed < 0) {
-        this.setState({ speed: 0.0 });
+      if (speed.error) {
+        this.setState({ error: speed.error });
       } else {
-        this.setState({ speed });
+        if (speed > 999) {
+          this.setState({ speed: 999.0, error: null });
+        } else if (speed < 0) {
+          this.setState({ speed: 0.0, error: null });
+        } else {
+          this.setState({ speed, error: null });
+        }
       }
     });
     startTracking();
@@ -55,13 +60,15 @@ export default React.createClass({
       fontFamily: 'monospace',
       color: 'white',
     };
+    const message = `${position().timestamp} : ${position().coords.latitude},${position().coords.longitude} : ${position().coords.speed}`;
     return (
       <div>
         <div style={style} onClick={this.flip}>
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>Km/h</span>
         </div>
-        <span style={{ color: 'yellow' }}>{position().timestamp} : {position().coords.latitude},{position().coords.longitude} : {position().coords.speed}</span>
+        <span style={{ color: 'yellow' }}>{message}</span>
+        <span style={{ color: 'red' }}>{this.state.error ? `${this.state.error.code}: ${this.state.error.message}` : ''}</span>
       </div>
     );
   },
