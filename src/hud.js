@@ -20,17 +20,29 @@ export default React.createClass({
   },
   componentDidMount() {
     this.unsubscribe = subscribe(e => {
-      console.log(e);
       const { speed, timestamp, error, coords } = e;
       if (error) {
         this.setState({ error });
       } else {
-        if (speed > 999) {
-          this.setState({ speed: 999.0, error, timestamp, coords });
-        } else if (speed < 0) {
-          this.setState({ speed: 0.0, error, timestamp, coords });
+        const duration = Date.now() - this.state.timestamp;
+        const diff = Math.abs(this.state.speed - speed);
+        if (diff > 40 && duration <= 3000) { // if 40km diff in less than 3 sec
+          this.setState({
+            error: {
+              code: 'GPS_ERROR',
+              message: 'Precision error',
+            },
+          });
         } else {
-          this.setState({ speed, error, timestamp, coords });
+          if (speed > 999) {
+            this.setState({ speed: 999.0, error, timestamp, coords });
+          } else if (speed < 0) {
+            this.setState({ speed: 0.0, error, timestamp, coords });
+          } else if (speed > 0 && speed < 15) {
+            this.setState({ speed: 15.0, error, timestamp, coords });
+          } else {
+            this.setState({ speed, error, timestamp, coords });
+          }
         }
       }
     });
