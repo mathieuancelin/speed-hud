@@ -1,7 +1,7 @@
 /* eslint max-len: 0 */
 
 import React from 'react';
-import { startTracking, stopTracking, subscribe, position } from './speed';
+import { startTracking, stopTracking, subscribe } from './speed';
 
 export default React.createClass({
   getInitialState() {
