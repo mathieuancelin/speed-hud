@@ -31,7 +31,7 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
 
 function watchPosition() {
   watchId = navigator.geolocation.watchPosition(pos => {
-    console.log('success', pos);
+    // console.log('success', pos);
     const time = Date.now();
     if (lastPosition && lastTime) {
       const speed = calculateSpeed(
@@ -52,12 +52,12 @@ function watchPosition() {
     lastPosition = pos;
     lastTime = time;
   }, error => {
-    console.log('error', error);
+    // console.log('error', error);
     listeners.forEach(listener => listener({ error }));
   }, {
     enableHighAccuracy: true,
-    maximumAge: 2000,
-    timeout: 10000,
+    maximumAge: 1000,
+    timeout: 5000,
   });
 }
 
