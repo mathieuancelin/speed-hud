@@ -13,7 +13,7 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   }
   // From Caspar Kleijne's answer ends
   // From cletus' answer starts
-  const R = 6371; // km
+  const R = 6371000; // metres
   const dLat = (lt2 - lt1).toRad();
   const dLon = (lng2 - lng1).toRad();
   const lat1 = lt1.toRad();
