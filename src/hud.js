@@ -40,8 +40,8 @@ export default React.createClass({
             this.setState({ speed: 999.0, actualSpeed: speed, error, timestamp, coords });
           } else if (speed < 0) {
             this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
-          } else if (speed > 0 && speed < 15) {
-            this.setState({ speed: 15.0, actualSpeed: speed, error, timestamp, coords });
+          } else if (speed > 0 && speed < 12) {
+            this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
           } else {
             this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
           }
