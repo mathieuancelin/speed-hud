@@ -1,3 +1,4 @@
+const useNative = window.location.hash !== '#nonative';
 const listeners = [];
 let lastPosition;
 let lastTime;
@@ -34,7 +35,8 @@ function watchPosition() {
     // console.log('success', pos);
     const time = Date.now();
     if (lastPosition && lastTime) {
-      const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : calculateSpeed(
+      const nativeSpeed = (useNative && pos.coords.speed) ? (pos.coords.speed * 3.6) : null;
+      const speed = nativeSpeed || calculateSpeed(
         lastTime / 1000,
         lastPosition.coords.latitude,
         lastPosition.coords.longitude,
