@@ -25,7 +25,7 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   const distance = R * c; // in meters
   const duration = (t2 - t1) / 1000; // in seconds
   const speedMPS = distance / duration;
-  const speed = speedMPS * 3,6;
+  const speed = speedMPS * 3.6;
   return speed;
 }
 
