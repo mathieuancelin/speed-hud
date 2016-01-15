@@ -10,3 +10,7 @@ export function init() {
     document.getElementById('app')
   );
 }
+
+// TODO : changer la police ..
+// TODO : tests ???
+// TODO : fullscreen

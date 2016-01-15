@@ -87,7 +87,7 @@ export default React.createClass({
     const labelStyle = {
       marginLeft: '6vw',
       marginRight: '1vw',
-      fontSize: '30vh',
+      fontSize: '24vh',
       fontFamily: 'monospace',
       color: 'white',
     };
@@ -95,7 +95,7 @@ export default React.createClass({
       <div>
         <div style={style} onClick={this.flip}>
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
-          <span style={labelStyle}>Km/h</span>
+          <span style={labelStyle}>km/h</span>
         </div>
         {this.props.debug ? (
           <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>

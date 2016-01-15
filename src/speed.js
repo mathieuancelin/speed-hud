@@ -3,6 +3,7 @@ const listeners = [];
 let lastPosition;
 let lastTime;
 let watchId;
+let stayAwake;
 
 function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
   // From Caspar Kleijne's answer starts
@@ -31,6 +32,10 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
 }
 
 function watchPosition() {
+  stayAwake = setInterval(() => {
+    location.href = location.href; // try refreshing
+    window.setTimeout(window.stop, 0); // stop it soon after
+  }, 20000);
   watchId = navigator.geolocation.watchPosition(pos => {
     // console.log('success', pos);
     const time = Date.now();
@@ -68,6 +73,7 @@ export function startTracking() {
 }
 
 export function stopTracking() {
+  clearInterval(stayAwake); // allow device sleep again when not needed
   navigator.geolocation.clearWatch(watchId);
 }
 
