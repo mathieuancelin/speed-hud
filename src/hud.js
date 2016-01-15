@@ -1,9 +1,10 @@
-/* eslint max-len: 0 */
+/* eslint max-len: 0, react/jsx-closing-bracket-location: 0 */
 
 import React from 'react';
-import moment from 'moment';
 import Hammer from 'hammerjs';
 import { startTracking, stopTracking, subscribe } from './speed';
+import { Debug } from './debug';
+import { Error } from './error';
 
 export default React.createClass({
   propTypes: {
@@ -59,6 +60,13 @@ export default React.createClass({
       }
     });
     startTracking();
+    this.wireHammer();
+  },
+  componentWillUnmount() {
+    this.unsubscribe();
+    stopTracking();
+  },
+  wireHammer() {
     const stage = document.body;
     const mc = new Hammer.Manager(stage);
     const pinchin = new Hammer.Pinch({ event: 'pinchin' });
@@ -84,15 +92,10 @@ export default React.createClass({
       }
     });
   },
-  componentWillUnmount() {
-    this.unsubscribe();
-    stopTracking();
-  },
   flip() {
     this.setState({ flip: !this.state.flip });
   },
   toggleFullScreen() {
-    console.log('toggleFullScreen');
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
       document.body.webkitRequestFullscreen();
     } else {
@@ -134,19 +137,13 @@ export default React.createClass({
           <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>km/h</span>
         </div>
-        {this.props.debug ? (
-          <span style={{ color: 'red' }}>{this.state.error ? `ERROR: ${this.state.error.code}: ${this.state.error.message}` : ''}</span>
-        ) : null}
-        {this.props.debug ? (
-          <ul style={{ color: 'yellow' }}>
-            <li>timestamp: {this.state.timestamp} : {moment(this.state.timestamp).format('DD/MM/YYYY HH:mm:ss:SSS')}</li>
-            <li>latitude : {this.state.coords.latitude}</li>
-            <li>longitude : {this.state.coords.longitude}</li>
-            <li>coord speed : {this.state.coords.speed}</li>
-            <li>speed : {this.state.speed}</li>
-            <li>speed : {this.state.actualSpeed}</li>
-          </ul>
-        ) : null}
+        <Error debug={this.props.debug} error={this.state.error} />
+        <Debug
+          debug={this.props.debug}
+          timestamp={this.state.timestamp}
+          coords={this.state.coords}
+          speed={this.state.speed}
+          actualSpeed={this.state.actualSpeed} />
       </div>
     );
   },

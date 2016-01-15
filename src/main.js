@@ -14,3 +14,6 @@ export function init() {
 // TODO : changer la police ..
 // TODO : service limite vitesse par geolocation
 // TODO : service temperature par geolocation
+// TODO : son pour la limite
+
+// TODO : les autres services comme composants
