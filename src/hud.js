@@ -16,6 +16,7 @@ export default React.createClass({
   },
   getInitialState() {
     return {
+      angle: 0,
       flip: true,
       speed: 0.0,
       actualSpeed: 0.0,
@@ -62,11 +63,26 @@ export default React.createClass({
     const mc = new Hammer.Manager(stage);
     const pinchin = new Hammer.Pinch({ event: 'pinchin' });
     const pinchout = new Hammer.Pinch({ event: 'pinchout' });
+    const panup = new Hammer.Pan();
     mc.add(pinchin);
     mc.add(pinchout);
+    mc.add(panup);
     mc.on('pinchin', () => document.webkitCancelFullScreen());
     mc.on('pinchout', () => document.body.webkitRequestFullscreen());
     mc.on('pinch', () => this.toggleFullScreen());
+    mc.on('pan', (e) => {
+      if (e.direction === 2) { // DIRECTION_LEFT
+      } else if (e.direction === 4) { // DIRECTION_RIGHT
+      } else if (e.direction === 8) { // DIRECTION_UP
+        if (this.state.angle < 45) {
+          this.setState({ angle: this.state.angle + 1 });
+        }
+      } else if (e.direction === 16) { // DIRECTION_DOWN
+        if (this.state.angle > -45) {
+          this.setState({ angle: this.state.angle - 1 });
+        }
+      }
+    });
   },
   componentWillUnmount() {
     this.unsubscribe();
@@ -93,6 +109,7 @@ export default React.createClass({
       color: 'white',
       width: '100vw',
       height: '100vh',
+      perspective: '800px',
     };
     const speedStyle = {
       fontSize: '70vh',
@@ -101,6 +118,7 @@ export default React.createClass({
       color: this.state.speed > 133.0 ? 'red' : 'white',
       fontWeight: 'bold',
       marginLeft: '1vw',
+      transform: 'rotateX(' + this.state.angle + 'deg)',
     };
     const labelStyle = {
       marginLeft: '6vw',
@@ -108,6 +126,7 @@ export default React.createClass({
       fontSize: '24vh',
       fontFamily: 'monospace',
       color: 'white',
+      transform: 'rotateX(' + this.state.angle + 'deg)',
     };
     return (
       <div>

@@ -12,5 +12,5 @@ export function init() {
 }
 
 // TODO : changer la police ..
-// TODO : tests ???
-// TODO : fullscreen
+// TODO : service limite vitesse par geolocation
+// TODO : service temperature par geolocation
