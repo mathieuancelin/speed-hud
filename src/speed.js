@@ -34,8 +34,8 @@ function calculateSpeed(t1, lt1, lng1, t2, lt2, lng2) {
 function watchPosition() {
   stayAwake = setInterval(() => {
     location.href = location.href; // try refreshing
-    window.setTimeout(window.stop, 0); // stop it soon after
-  }, 20000);
+    // window.setTimeout(window.stop, 0); // stop it soon after
+  }, 10000);
   watchId = navigator.geolocation.watchPosition(pos => {
     // console.log('success', pos);
     const time = Date.now();

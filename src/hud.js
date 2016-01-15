@@ -2,6 +2,7 @@
 
 import React from 'react';
 import moment from 'moment';
+import Hammer from 'hammerjs';
 import { startTracking, stopTracking, subscribe } from './speed';
 
 export default React.createClass({
@@ -57,6 +58,15 @@ export default React.createClass({
       }
     });
     startTracking();
+    const stage = document.body;
+    const mc = new Hammer.Manager(stage);
+    const pinchin = new Hammer.Pinch({ event: 'pinchin' });
+    const pinchout = new Hammer.Pinch({ event: 'pinchout' });
+    mc.add(pinchin);
+    mc.add(pinchout);
+    mc.on('pinchin', () => document.webkitCancelFullScreen());
+    mc.on('pinchout', () => document.body.webkitRequestFullscreen());
+    mc.on('pinch', () => this.toggleFullScreen());
   },
   componentWillUnmount() {
     this.unsubscribe();
@@ -64,6 +74,14 @@ export default React.createClass({
   },
   flip() {
     this.setState({ flip: !this.state.flip });
+  },
+  toggleFullScreen() {
+    console.log('toggleFullScreen');
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+      document.body.webkitRequestFullscreen();
+    } else {
+      document.webkitCancelFullScreen();
+    }
   },
   render() {
     const style = {
