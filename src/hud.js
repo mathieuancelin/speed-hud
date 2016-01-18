@@ -8,8 +8,12 @@ import { Error } from './error';
 
 const themes = [
   { color: 'white', back: 'black' },
-  { color: 'black', back: 'white' },
   { color: 'Aqua', back: 'black' },
+  { color: 'yellow', back: 'black' },
+  { color: 'LawnGreen', back: 'black' },
+  { color: 'SpringGreen', back: 'black' },
+  { color: 'Magenta', back: 'black' },
+  { color: 'black', back: 'white' },
 ];
 
 export default React.createClass({
@@ -76,31 +80,23 @@ export default React.createClass({
   wireHammer() {
     const stage = document.body;
     const mc = new Hammer.Manager(stage);
-    // const pinchin = new Hammer.Pinch({ event: 'pinchin' });
-    // const pinchout = new Hammer.Pinch({ event: 'pinchout' });
-    const panup = new Hammer.Pan();
+    const pan = new Hammer.Pan();
     const swipe = new Hammer.Swipe();
-    // mc.add(pinchin);
-    // mc.add(pinchout);
-    mc.add(panup);
+    mc.add(pan);
     mc.add(swipe);
-    // mc.on('pinchin', () => document.webkitCancelFullScreen());
-    // mc.on('pinchout', () => document.body.webkitRequestFullscreen());
-    // mc.on('pinch', () => this.toggleFullScreen());
-    mc.on('panleft', () => {
-      this.setState({ theme: this.state.theme + 0.1 });
-    });
-    mc.on('panright', () => {
-      this.setState({ theme: this.state.theme + 0.1 });
-    });
-    mc.on('pandown', () => {
-      if (this.state.angle > -45) {
-        this.setState({ angle: this.state.angle - 1 });
-      }
-    });
-    mc.on('panup', () => {
-      if (this.state.angle < 45) {
-        this.setState({ angle: this.state.angle + 1 });
+    mc.on('pan', (e) => {
+      if (e.direction === 2) {
+        this.setState({ theme: this.state.theme + 0.05 });
+      } else if (e.direction === 4) {
+        this.setState({ theme: this.state.theme + 0.05 });
+      } else if (e.direction === 8) {
+        if (this.state.angle < 45) {
+          this.setState({ angle: this.state.angle + 1 });
+        }
+      } else if (e.direction === 16) {
+        if (this.state.angle > -45) {
+          this.setState({ angle: this.state.angle - 1 });
+        }
       }
     });
     /*
@@ -130,12 +126,14 @@ export default React.createClass({
     }
   },
   render() {
+    const index = parseInt((this.state.theme % (themes.length - 1)).toFixed(0), 10);
+    document.body.style.backgroundColor = themes[index].back;
     const style = {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       transform: this.state.flip ? 'scale(-1, 1)' : 'scale(1, 1)',
-      backgroundColor: themes[this.state.theme % themes.length].back,
+      backgroundColor: themes[index].back,
       color: 'white',
       width: '100vw',
       height: '100vh',
@@ -145,7 +143,7 @@ export default React.createClass({
       fontSize: '70vh',
       letterSpacing: '-6vw',
       fontFamily: 'monospace',
-      color: this.state.speed > 133.0 ? 'red' : themes[this.state.theme % themes.length].color,
+      color: this.state.speed > 133.0 ? 'red' : themes[index].color,
       fontWeight: 'bold',
       marginLeft: '1vw',
       transform: 'rotateX(' + this.state.angle + 'deg)',
@@ -155,7 +153,7 @@ export default React.createClass({
       marginRight: '1vw',
       fontSize: '24vh',
       fontFamily: 'monospace',
-      color: themes[this.state.theme % themes.length].color,
+      color: themes[index].color,
       transform: 'rotateX(' + this.state.angle + 'deg)',
     };
     return (
