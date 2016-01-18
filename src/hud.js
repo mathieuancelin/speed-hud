@@ -76,18 +76,36 @@ export default React.createClass({
   wireHammer() {
     const stage = document.body;
     const mc = new Hammer.Manager(stage);
-    const pinchin = new Hammer.Pinch({ event: 'pinchin' });
-    const pinchout = new Hammer.Pinch({ event: 'pinchout' });
+    // const pinchin = new Hammer.Pinch({ event: 'pinchin' });
+    // const pinchout = new Hammer.Pinch({ event: 'pinchout' });
     const panup = new Hammer.Pan();
     const swipe = new Hammer.Swipe();
-    mc.add(pinchin);
-    mc.add(pinchout);
+    // mc.add(pinchin);
+    // mc.add(pinchout);
     mc.add(panup);
     mc.add(swipe);
-    mc.on('pinchin', () => document.webkitCancelFullScreen());
-    mc.on('pinchout', () => document.body.webkitRequestFullscreen());
-    mc.on('pinch', () => this.toggleFullScreen());
-    mc.on('pan', (e) => {
+    // mc.on('pinchin', () => document.webkitCancelFullScreen());
+    // mc.on('pinchout', () => document.body.webkitRequestFullscreen());
+    // mc.on('pinch', () => this.toggleFullScreen());
+    mc.on('swipeleft', (e) => {
+      console.log('swipeleft', e);
+      this.setState({ theme: this.state.theme + 1 });
+    });
+    mc.on('swiperight', (e) => {
+      console.log('swiperight', e);
+      this.setState({ theme: this.state.theme + 1 });
+    });
+    mc.on('pandown', () => {
+      if (this.state.angle > -45) {
+        this.setState({ angle: this.state.angle - 1 });
+      }
+    });
+    mc.on('panup', () => {
+      if (this.state.angle < 45) {
+        this.setState({ angle: this.state.angle + 1 });
+      }
+    });
+    /*
       if (e.direction === 8) { // DIRECTION_UP
         if (this.state.angle < 45) {
           this.setState({ angle: this.state.angle + 1 });
@@ -97,19 +115,11 @@ export default React.createClass({
           this.setState({ angle: this.state.angle - 1 });
         }
       } else if (e.direction === 2) {
-        this.setState({ theme: this.state.theme + 1 });
+        // this.setState({ theme: this.state.theme + 1 });
       } else if (e.direction === 3) {
-        this.setState({ theme: this.state.theme - 1 });
+        // this.setState({ theme: this.state.theme - 1 });
       }
-    });
-    mc.on('swipe', (e) => {
-      console.log('swipe', e);
-      if (e.direction === 2) { // DIRECTION_LEFT
-        this.setState({ theme: this.state.theme + 1 });
-      } else if (e.direction === 4) { // DIRECTION_RIGHT
-        this.setState({ theme: this.state.theme - 1 });
-      }
-    });
+    });*/
   },
   flip() {
     this.setState({ flip: !this.state.flip });
