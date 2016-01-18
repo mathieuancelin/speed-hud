@@ -96,6 +96,10 @@ export default React.createClass({
         if (this.state.angle > -45) {
           this.setState({ angle: this.state.angle - 1 });
         }
+      } else if (e.direction === 2) {
+        this.setState({ theme: this.state.theme + 1 });
+      } else if (e.direction === 3) {
+        this.setState({ theme: this.state.theme - 1 });
       }
     });
     mc.on('swipe', (e) => {
