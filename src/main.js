@@ -17,3 +17,7 @@ export function init() {
 // TODO : son pour la limite
 
 // TODO : les autres services comme composants
+
+// TODO : changement de couleurs par swipe horizontal
+// TODO : config button
+// TODO : mock speed for capture
