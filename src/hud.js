@@ -87,13 +87,11 @@ export default React.createClass({
     // mc.on('pinchin', () => document.webkitCancelFullScreen());
     // mc.on('pinchout', () => document.body.webkitRequestFullscreen());
     // mc.on('pinch', () => this.toggleFullScreen());
-    mc.on('swipeleft', (e) => {
-      console.log('swipeleft', e);
-      this.setState({ theme: this.state.theme + 1 });
+    mc.on('panleft', () => {
+      this.setState({ theme: this.state.theme + 0.1 });
     });
-    mc.on('swiperight', (e) => {
-      console.log('swiperight', e);
-      this.setState({ theme: this.state.theme + 1 });
+    mc.on('panright', () => {
+      this.setState({ theme: this.state.theme + 0.1 });
     });
     mc.on('pandown', () => {
       if (this.state.angle > -45) {
