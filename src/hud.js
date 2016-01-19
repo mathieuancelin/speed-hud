@@ -114,12 +114,12 @@ export default React.createClass({
     };
     return (
       <div>
+        <div style={{ position: 'fixed', top: 5, left: 5, zIndex: 999 }}>
+          <ConfigButton action={() => this.setState({ screen: 'config' })} />
+        </div>
         <div style={style} onClick={this.flip}>
           <span style={speedStyle}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>km/h</span>
-        </div>
-        <div>
-          <ConfigButton action={() => this.setState({ screen: 'config' })} />
         </div>
         <Error debug={this.state.debug} error={this.state.error} />
         <Debug
