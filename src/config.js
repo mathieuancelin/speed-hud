@@ -58,7 +58,7 @@ export class Config extends React.Component {
     return (
       <div style={{ color: 'white', display: 'flex', flexDirection: 'column' }}>
         <Row title="Theme">
-          <select value={index} onChange={(e) => this.props.setState({ theme: e.target.value })}>
+          <select style={{ width: '100%' }} value={index} onChange={(e) => this.props.setState({ theme: e.target.value })}>
             {this.props.themes.map((t, i) => <option key={i} value={i}>{t.color} / {t.back}</option>)}
           </select>
         </Row>
