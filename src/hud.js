@@ -88,7 +88,7 @@ export default React.createClass({
       if (e.direction === 2) {
         this.setState({ theme: this.state.theme + 0.05 });
       } else if (e.direction === 4) {
-        this.setState({ theme: this.state.theme + 0.05 });
+        this.setState({ theme: this.state.theme - 0.05 });
       } else if (e.direction === 8) {
         if (this.state.angle < 45) {
           this.setState({ angle: this.state.angle + 1 });
@@ -102,13 +102,6 @@ export default React.createClass({
   },
   flip() {
     this.setState({ flip: !this.state.flip });
-  },
-  toggleFullScreen() {
-    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-      document.body.webkitRequestFullscreen();
-    } else {
-      document.webkitCancelFullScreen();
-    }
   },
   render() {
     const index = parseInt((Math.abs(this.state.theme) % (themes.length - 1)).toFixed(0), 10);
