@@ -1,10 +1,11 @@
 /* eslint max-len: 0, react/jsx-closing-bracket-location: 0 */
 
 import React from 'react';
-import Hammer from 'hammerjs';
+import { wireHammer } from './hammer';
 import { startTracking, stopTracking, subscribe } from './speed';
 import { Debug } from './debug';
 import { Error } from './error';
+import { Config, ConfigButton } from './config';
 
 const themes = [
   { color: 'white', back: 'black' },
@@ -17,16 +18,12 @@ const themes = [
 ];
 
 export default React.createClass({
-  propTypes: {
-    debug: React.PropTypes.bool,
-  },
-  getDefaultProps() {
-    return {
-      debug: false,
-    };
-  },
   getInitialState() {
     return {
+      debug: false,
+      mock: false,
+      mockSpeed: 42,
+      screen: 'hud',
       theme: 0,
       angle: 0,
       flip: true,
@@ -71,39 +68,19 @@ export default React.createClass({
       }
     });
     startTracking();
-    this.wireHammer();
+    wireHammer(() => this.state, (s) => this.setState(s));
   },
   componentWillUnmount() {
     this.unsubscribe();
     stopTracking();
   },
-  wireHammer() {
-    const stage = document.body;
-    const mc = new Hammer.Manager(stage);
-    const pan = new Hammer.Pan();
-    const swipe = new Hammer.Swipe();
-    mc.add(pan);
-    mc.add(swipe);
-    mc.on('pan', (e) => {
-      if (e.direction === 2) {
-        this.setState({ theme: this.state.theme + 0.05 });
-      } else if (e.direction === 4) {
-        this.setState({ theme: this.state.theme - 0.05 });
-      } else if (e.direction === 8) {
-        if (this.state.angle < 45) {
-          this.setState({ angle: this.state.angle + 1 });
-        }
-      } else if (e.direction === 16) {
-        if (this.state.angle > -45) {
-          this.setState({ angle: this.state.angle - 1 });
-        }
-      }
-    });
-  },
   flip() {
     this.setState({ flip: !this.state.flip });
   },
   render() {
+    if (this.state.screen === 'config') {
+      return <Config {...this.state} setState={(s) => this.setState(s)} themes={themes} />;
+    }
     const index = parseInt((Math.abs(this.state.theme) % (themes.length - 1)).toFixed(0), 10);
     // AAAARRRRGGGGHHHH !!!!
     document.body.style.backgroundColor = themes[index].back;
@@ -138,12 +115,15 @@ export default React.createClass({
     return (
       <div>
         <div style={style} onClick={this.flip}>
-          <span style={speedStyle}>{this.state.speed.toFixed(0)}</span>
+          <span style={speedStyle}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</span>
           <span style={labelStyle}>km/h</span>
         </div>
-        <Error debug={this.props.debug} error={this.state.error} />
+        <div>
+          <ConfigButton action={() => this.setState({ screen: 'config' })} />
+        </div>
+        <Error debug={this.state.debug} error={this.state.error} />
         <Debug
-          debug={this.props.debug}
+          debug={this.state.debug}
           timestamp={this.state.timestamp}
           coords={this.state.coords}
           speed={this.state.speed}

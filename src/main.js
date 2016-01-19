@@ -6,18 +6,11 @@ require('babel-polyfill');
 
 export function init() {
   ReactDOM.render(
-    <HUD debug={window.location.hash === '#debug'} />,
+    <HUD />,
     document.getElementById('app')
   );
 }
 
-// TODO : changer la police ..
 // TODO : service limite vitesse par geolocation
 // TODO : service temperature par geolocation
 // TODO : son pour la limite
-
-// TODO : les autres services comme composants
-
-// TODO : changement de couleurs par swipe horizontal
-// TODO : config button
-// TODO : mock speed for capture
