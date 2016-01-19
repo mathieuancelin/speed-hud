@@ -12,7 +12,7 @@ const themes = [
   { color: 'yellow', back: 'black' },
   { color: 'LawnGreen', back: 'black' },
   { color: 'SpringGreen', back: 'black' },
-  { color: 'Magenta', back: 'black' },
+  { color: 'DeepPink', back: 'black' },
   { color: 'black', back: 'white' },
 ];
 
