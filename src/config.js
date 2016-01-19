@@ -66,7 +66,6 @@ export class Config extends React.Component {
           <input type="checkbox" {...debugChecked} onChange={() => this.props.setState({ debug: !this.props.debug })} />
         </Row>
         <Row title="Enable mock speed">
-          <input type="number" value="42" onChange={(e) => this.props.setState({ mockSpeed: e.target.value })} />
           <input type="checkbox" {...mockChecked} onChange={() => this.props.setState({ mock: !this.props.mock })} />
         </Row>
         <button type="button" style={{ height: 30, marginTop: 30 }} onClick={() => this.props.setState({ screen: 'hud' })}>Back</button>
