@@ -99,21 +99,6 @@ export default React.createClass({
         }
       }
     });
-    /*
-      if (e.direction === 8) { // DIRECTION_UP
-        if (this.state.angle < 45) {
-          this.setState({ angle: this.state.angle + 1 });
-        }
-      } else if (e.direction === 16) { // DIRECTION_DOWN
-        if (this.state.angle > -45) {
-          this.setState({ angle: this.state.angle - 1 });
-        }
-      } else if (e.direction === 2) {
-        // this.setState({ theme: this.state.theme + 1 });
-      } else if (e.direction === 3) {
-        // this.setState({ theme: this.state.theme - 1 });
-      }
-    });*/
   },
   flip() {
     this.setState({ flip: !this.state.flip });
@@ -126,7 +111,8 @@ export default React.createClass({
     }
   },
   render() {
-    const index = parseInt((this.state.theme % (themes.length - 1)).toFixed(0), 10);
+    const index = parseInt((Math.abs(this.state.theme) % (themes.length - 1)).toFixed(0), 10);
+    // AAAARRRRGGGGHHHH !!!!
     document.body.style.backgroundColor = themes[index].back;
     const style = {
       display: 'flex',
